@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cucumber</artifactId>
+	<packaging>jar</packaging>
+  
+  
+  <parent>
+    <groupId>cucumber</groupId>
+    <artifactId>Book-Transfer</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  
+  
+<build>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.github.temyers</groupId>
+										<artifactId>cucumber-jvm-parallel-plugin</artifactId>
+										<versionRange>[1.8,)</versionRange>
+										<goals>
+											<goal>generateRunners</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore/>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-antrun-plugin
+										</artifactId>
+										<versionRange>
+											[1.8,)
+										</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore/>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>com.github.temyers</groupId>
+				<artifactId>cucumber-jvm-parallel-plugin</artifactId>
+				<version>4.0.0</version>
+				<executions>
+					<execution>
+						<id>generateRunners</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>generateRunners</goal>
+						</goals>
+						<configuration>
+							<!-- Mandatory -->
+							<!-- comma separated list of package names to scan for glue code -->
+							<glue>
+								<package>step_definitions</package>
+							</glue>
+							<!-- These are the default values -->
+							<!-- Where to output the generated Junit tests -->
+							<outputDirectory>${project.build.directory}/generated-test-sources</outputDirectory>
+							<!-- The diectory containing your feature files. -->
+							<featuresDirectory>src/test/resources/features/</featuresDirectory>
+							<!-- Directory where the cucumber report files shall be written -->
+							<cucumberOutputDir>${project.build.directory}/cucumber-reports</cucumberOutputDir>
+							<!-- comma separated list of output formats -->
+							<format>json</format>
+							<namingScheme>feature-title</namingScheme>
+							<parallelScheme>SCENARIO</parallelScheme>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+					<testFailureIgnore>true</testFailureIgnore>
+					<forkCount>4</forkCount>
+					<reuseForks>true</reuseForks>
+					<includes>
+						<include>**/*IT.class</include>
+					</includes>
+					<parallel>classes</parallel>
+					<threadCount>5</threadCount>
+					<systemPropertyVariables>
+						<browserType>chrome</browserType>
+						<driverLocation>C:\\NotBackedUp\\selenium-2.53.0\\chrome\\chromedriver.exe</driverLocation>
+						<appName>opee</appName>
+						<sheetNumber>0</sheetNumber>
+						<phase>ST</phase>
+						<RemoteWebURL>http://appau601mel5042.globaltest.anz.com:4444/wd/hub</RemoteWebURL>
+						<fileTag>ST</fileTag>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
